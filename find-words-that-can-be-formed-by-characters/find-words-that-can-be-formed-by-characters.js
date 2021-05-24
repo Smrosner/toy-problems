@@ -22,30 +22,28 @@
  
  words = ["hello","world","leetcode"], chars = "welldonehoneyr"
  */
-var countCharacters = function(words, chars) { 
- let sum = 0
- for (let j = 0; j < words.length; j++) {
-     let bank = {}
-     for (let i = 0; i < chars.length; i++) {
-         if (bank[chars[i]] === undefined) {
-             bank[chars[i]] = 1
-         } else {
-             bank[chars[i]]++
-         }
-     }
-     
-     let word = words[j]
-     for (let k = 0; k < word.length; k++) {
-         let ltr = word[k]
-         if (bank[ltr]) {
-             bank[ltr]--
-             if (k === word.length - 1) {
-                sum +=  word.length
-             }
-         } else {
-             break
-         }
-     }
- }
- return sum
+var countCharacters = function(words, chars) {
+  const letterCounts = chars.split('').reduce((count, letter) => {
+    count[letter] = (count[letter] || 0) + 1;
+    return count;
+  }, {});
+  
+
+  const canMakeWord = (word, letterCounts) => {
+    const wordCounts = {};
+    for (let i = 0; i < word.length; i++) {
+      const letter = word[i];
+      if (!(letter in letterCounts)) return false;
+      wordCounts[letter] = (wordCounts[letter] || 0) + 1;
+      if (letterCounts[letter] < wordCounts[letter]) return false;
+    }
+    return true;
+  };
+  
+  return words.reduce((total, word) => {
+    if (canMakeWord(word, letterCounts)) {
+      total += word.length;
+    }
+    return total;
+  }, 0)
 };
