@@ -9,11 +9,9 @@
  */
 var countConsistentStrings = function(allowed, words) {
     let count = 0
-    for (let i = 0; i < words.length; i++) {
-        let word = words[i]
+    for (const word of words) {
         let isAllowed = true
-        for (let j = 0; j < word.length; j++) {
-            let letter = word[j]
+        for (const letter of word) {
             if (!allowed.includes(letter)) {
                 isAllowed = false
                 break
