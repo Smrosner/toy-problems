@@ -3,40 +3,19 @@
  * @return {boolean}
  */
 
-const dirs =[[1,0],[0,1],[-1,0],[0,-1]]
-
 var isRobotBounded = function(instructions) {
-    let curPos = [0,0]
-    let curDir = 0
-    
-    for (let letter of instructions) {
-        if (letter === 'G') {
-            curPos[0] += dirs[curDir][0]
-            curPos[1] += dirs[curDir][1]
+   let dir=0, x=0, y=0;
+    for(let i of instructions){
+        if(i=='L') dir++;
+        else if(i=='R') dir+=3;
+        else {
+            switch(dir%4){
+                case 0: y++; break;
+                case 1: x++; break;
+                case 2: y--; break;
+                case 3: x--; break;
+            }
         }
-        
-        if (letter === 'L') {
-            curDir--
-        }
-        
-        if (letter === 'R') {
-            curDir++
-        }
-        
-        if (curDir < 0) {
-            curDir = 4 + curDir
-        }
-        
-        curDir %= 4
     }
-    
-    if (curDir) {
-        return true
-    }
-    
-    if (!curPos[1] && !curPos[0]) {
-        return true
-    }
-    
-    return false
+    return dir%4!=0  || !x && !y;    
 };
